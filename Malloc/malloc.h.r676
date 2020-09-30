@@ -1,0 +1,40 @@
+/*
+** ETNA PROJECT, 11/01/2019 by soubri_j/martin_m
+** malloc.h
+** File description: 
+**      This file contains headers for malloc program.
+*/
+
+#ifndef __MALLOC_H__
+# define __MALLOC_H__
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+
+#define MIN(x,y) (((x) < (y)) ? (x) : (y))
+
+/* Constants */
+static const int magic_number = 0x77777777;
+
+/* Error messages */
+static const char error_pointer_too_low[] = "Pointer address is too low";
+static const char error_wrong_pointer[] = "Pointer address is not correct";
+
+/* Structures definition */
+typedef struct block_s {
+    struct block_s* next;
+    struct block_s* prev;
+    size_t size;
+    int available;
+    int magic;
+} block_t;
+
+/* Methods declaration */
+void* malloc(size_t size);
+void *realloc(void *ptr, size_t size);
+void free(void *ptr);
+void print_list(void *first_block);
+void print_block(block_t *block);
+block_t *merge_block(block_t *block_to_optimize);
+block_t *split_block(block_t *block_to_split, size_t used_size);
+#endif
